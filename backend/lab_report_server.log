@@ -1,0 +1,48 @@
+2025-02-07 13:52:35,842 - INFO - Connected to Pinata
+2025-02-07 13:52:35,846 - INFO - Connected to Ganache successfully
+2025-02-07 13:52:35,846 - INFO - Systems connected. Starting server...
+2025-02-07 13:52:36,711 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.211.23:5000
+2025-02-07 13:52:36,711 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-07 13:52:36,713 - INFO -  * Restarting with stat
+2025-02-07 13:52:39,619 - INFO - Connected to Pinata
+2025-02-07 13:52:39,623 - INFO - Connected to Ganache successfully
+2025-02-07 13:52:39,636 - INFO - Systems connected. Starting server...
+2025-02-07 13:52:39,672 - WARNING -  * Debugger is active!
+2025-02-07 13:52:39,682 - INFO -  * Debugger PIN: 196-569-701
+2025-02-07 18:57:27,696 - INFO - Connected to Pinata
+2025-02-07 18:57:29,728 - ERROR - Ganache connection failed
+2025-02-07 18:57:29,728 - ERROR - Connection checks failed. Server cannot start.
+2025-02-07 18:58:09,157 - INFO - Connected to Pinata
+2025-02-07 18:58:09,161 - INFO - Connected to Ganache successfully
+2025-02-07 18:58:09,161 - INFO - Systems connected. Starting server...
+2025-02-07 18:58:10,041 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.120.23:5000
+2025-02-07 18:58:10,041 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-07 18:58:10,044 - INFO -  * Restarting with stat
+2025-02-07 18:58:12,706 - INFO - Connected to Pinata
+2025-02-07 18:58:12,710 - INFO - Connected to Ganache successfully
+2025-02-07 18:58:12,710 - INFO - Systems connected. Starting server...
+2025-02-07 18:58:12,734 - WARNING -  * Debugger is active!
+2025-02-07 18:58:12,740 - INFO -  * Debugger PIN: 196-569-701
+2025-02-07 19:30:39,919 - INFO - Connected to Pinata
+2025-02-07 19:30:39,922 - INFO - Connected to Ganache successfully
+2025-02-07 19:30:39,922 - INFO - Systems connected. Starting server...
+2025-02-07 19:30:40,794 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.120.23:5000
+2025-02-07 19:30:40,794 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-07 19:30:40,796 - INFO -  * Restarting with stat
+2025-02-07 19:30:43,097 - INFO - Connected to Pinata
+2025-02-07 19:30:43,100 - INFO - Connected to Ganache successfully
+2025-02-07 19:30:43,101 - INFO - Systems connected. Starting server...
+2025-02-07 19:30:43,125 - WARNING -  * Debugger is active!
+2025-02-07 19:30:43,131 - INFO -  * Debugger PIN: 109-925-835
+2025-04-10 09:58:13,655 - INFO - Connected to Pinata
+2025-04-10 09:58:15,701 - ERROR - Ganache connection failed
+2025-04-10 09:58:15,701 - ERROR - Connection checks failed. Server cannot start.

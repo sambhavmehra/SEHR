@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Electronic Health Records - Login</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #000000, #1a1a1a);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #bfc7d5;
+        }
+
+        header {
+            background-color: #000000;
+            padding: 15px 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80px;
+            position: relative;
+        }
+
+        .logo {
+            position: absolute;
+            left: 30px;
+        }
+
+        .logo img {
+            height: 97px;
+            margin-left: -20px;
+            padding-top: 7px;
+        }
+
+        .header-title {
+            text-align: center;
+            color: #fff;
+        }
+
+        .header-title h1 {
+            font-size: 30px;
+            margin: 0;
+        }
+
+        .header-title hr {
+            margin: 5px 0;
+            border: 0;
+            height: 1px;
+            background-color: #3ab9ad;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: #2b3245;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 30px;
+        }
+
+        label {
+            color: #bfc7d5;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #3ab9ad;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #339c91;
+        }
+
+        .register {
+            color: #bfc7d5;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .register a {
+            color: #3ab9ad;
+            text-decoration: none;
+        }
+
+        .register a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="image/img13.png" alt="SEHR Logo">
+        </div>
+        <div class="header-title">
+            <h1>Secure Electronic Health Records</h1>
+            <hr>
+            <hr>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="container">
+            <h1>Login</h1>
+            
+            <form id="loginForm" onsubmit="return validateLogin()">
+                <label for="walletAddress">Wallet Address</label>
+                <input 
+                    type="text" 
+                    id="walletAddress" 
+                    name="walletAddress" 
+                    placeholder="Enter your wallet address" 
+                    required
+                >
+                
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Enter your password" 
+                    required
+                >
+                
+                <input type="submit" value="Login">
+            </form>
+
+            <div class="register">
+                <p>Don't have an account? <a href="registration.html">Register here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function validateLogin() {
+            const walletAddress = document.getElementById('walletAddress').value;
+            const password = document.getElementById('password').value;
+
+            // Basic wallet address validation (ethereum-style)
+            const walletRegex = /^(0x)[0-9a-fA-F]{40}$/;
+            if (!walletRegex.test(walletAddress)) {
+                alert('Please enter a valid Ethereum-style wallet address');
+                return false;
+            }
+
+            // You would typically send these credentials to a backend for authentication
+            // This is a placeholder client-side validation
+            return true;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Previous head section and styles remain exactly the same -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Past Records</title>
+    <style>
+        /* All existing styles remain unchanged */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #000000, #1a1a1a);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .header img {
+            height: 97px;
+        }
+
+        .header-title {
+            text-align: center;
+        }
+
+        .logout {
+            background-color: rgb(0, 145, 255);
+            text-align: center;
+            padding: 10px 20px;
+            border-radius: 7px;
+            margin-right: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        main {
+            margin-top: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            flex-grow: 1;
+        }
+
+        .upload-container {
+            background-color: #1a1a1a;
+            padding: 3rem;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.5rem;
+            background-color: #333;
+            border: 1px solid #555;
+            border-radius: 4px;
+            color: white;
+        }
+
+        .file-upload {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .file-input-wrapper {
+            display: flex;
+            background-color: #333;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #fileInput {
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-name {
+            flex-grow: 1;
+            padding: 0.5rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        button {
+            padding: 0.5rem 1.5rem;
+            background-color: #1bc7b1;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #17a498;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .file-input-wrapper:hover {
+            background-color: #444;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .status-indicator {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .status-indicator.connected {
+            display: block;
+            background-color: #1bc7b1;
+            color: white;
+        }
+
+        .status-indicator.disconnected {
+            display: block;
+            background-color: #ff4444;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Previous HTML structure remains unchanged -->
+    <div class="header">
+        <img src="image/img13.png" alt="Logo">
+        <div class="header-title">
+            <h1>Secure Electronic Health Records</h1>
+        </div>
+        <a href="patient.html" class="logout" onclick="redirectToDashboard()">Back to dashboard</a>
+    </div>
+
+    <main>
+        <div class="upload-container">
+            <div id="connectionStatus" class="status-indicator"></div>
+            <h2>Upload your Past Records</h2>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="walletAddress">Wallet Address</label>
+                    <input 
+                        type="text" 
+                        id="walletAddress" 
+                        name="wallet_address" 
+                        class="form-input" 
+                        placeholder="Enter your Blockchain Wallet Address"
+                        required
+                    >
+                </div>
+
+                <div class="file-upload">
+                    <label for="fileInput" class="file-input-wrapper">
+                        <span class="file-name" id="fileName">Choose file</span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                        </svg>
+                        <input 
+                            type="file" 
+                            id="fileInput" 
+                            name="file" 
+                            accept=".xray,.pdf,.jpg,.png" 
+                            required
+                        >
+                    </label>
+                </div>
+                
+                <div class="button-container">
+                    <button type="submit" id="submitButton">Submit</button>
+                    <button type="button" onclick="window.location.href='index.html'">Cancel</button>
+                </div>
+            </form>
+            <div class="loading" id="loadingIndicator">
+                Uploading file, please wait...
+            </div>
+            <div class="message" id="messageDiv"></div>
+        </div>
+    </main>
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('fileName');
+        const uploadForm = document.getElementById('uploadForm');
+        const messageDiv = document.getElementById('messageDiv');
+        const walletAddressInput = document.getElementById('walletAddress');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const submitButton = document.getElementById('submitButton');
+        const connectionStatus = document.getElementById('connectionStatus');
+        
+        // Function to check connection with backend services
+        async function checkConnection() {
+    try {
+        const response = await fetch('http://localhost:3000/health');
+        const status = await response.json();
+        // Missing status update logic
+    } catch (error) {
+        connectionStatus.textContent = 'Connection Error';
+        connectionStatus.className = 'status-indicator disconnected';
+        submitButton.disabled = true;
+    }
+}
+        
+        // Function to validate Ethereum wallet addresses
+        function validateWalletAddress(address) {
+            const ethAddressRegex = /^0x[a-fA-F0-9]{40}$/;
+            return ethAddressRegex.test(address);
+        }
+        
+        // Event listener for file input
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            fileName.textContent = file ? file.name : 'Choose file';
+        });
+        
+        // Event listener for form submission
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+        
+            const walletAddress = walletAddressInput.value.trim();
+        
+            // Validate wallet address
+            if (!validateWalletAddress(walletAddress)) {
+                messageDiv.innerHTML = '<span class="error">Invalid wallet address.</span>';
+                return;
+            }
+        
+            // Check if a file is selected
+            if (!fileInput.files.length) {
+                messageDiv.innerHTML = '<span class="error">Please select a file.</span>';
+                return;
+            }
+        
+            // Show loading indicator and disable submit button
+            loadingIndicator.classList.add('active');
+            submitButton.disabled = true;
+            messageDiv.innerHTML = '';
+        
+            // Prepare form data
+            const formData = new FormData();
+            formData.append('wallet_address', walletAddress);
+            formData.append('file', fileInput.files[0]);
+        
+            try {
+                const response = await fetch('http://localhost:3000/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+        
+                const result = await response.json();
+        
+                if (response.ok) {
+                    messageDiv.innerHTML = `
+                        <span class="success">
+                            ${result.message}<br>
+                            IPFS Hash: <code>${result.ipfsHash}</code><br>
+                            Transaction Hash: <code>${result.transactionHash}</code>
+                        </span>
+                    `;
+                    
+                    // Show alert for successful upload
+                    alert('File uploaded successfully');
+                    
+                    // Reset form
+                    uploadForm.reset();
+                    fileName.textContent = 'Choose file';
+                    
+                    // Redirect to patient.html
+                    window.location.href = 'patient.html';
+                } else {
+                    messageDiv.innerHTML = `
+                        <span class="error">
+                            Error: ${result.message}
+                        </span>
+                    `;
+                }
+            } catch (error) {
+                messageDiv.innerHTML = `
+                    <span class="error">
+                        Upload failed. Please try again later.
+                    </span>
+                `;
+                console.error('Error during file upload:', error);
+            } finally {
+                loadingIndicator.classList.remove('active');
+                submitButton.disabled = false;
+            }
+        });
+        
+        // Initialize connection check on page load
+        checkConnection();
+    </script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Lab Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #000000, #1a1a1a);
+        }
+        header {
+            background-color: #000000;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+        }
+        .back-button {
+            background-color: #00bfa5;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background-color: #1e2329;
+            padding: 2rem;
+            border-radius: 10px;
+            color: white;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .form-group {
+            flex: 0 0 48%;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: none;
+            background-color: #2c3135;
+            color: white;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn-primary {
+            background-color: #00b8d4;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #1e2329;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            min-width: 300px;
+            text-align: center;
+            color: white;
+        }
+
+        .popup-success {
+            border: 2px solid #00b8d4;
+        }
+
+        .popup-error {
+            border: 2px solid #dc3545;
+        }
+
+        .popup-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .popup-message {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .popup-button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .popup-button-success {
+            background-color: #00b8d4;
+        }
+
+        .popup-button-error {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><img style="height: 97px; padding-top: 7px;" src="image/img13.png" alt="SEHR Logo"></div>
+        <div class="header-title">Secure Electronic Health Record</div>
+        <button class="back-button" onclick="redirectToDashboard()">Back to Dashboard</button>
+    </header>
+    <div class="container">
+        <h1>Create Lab Report</h1>
+        <form id="lab-report-form" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="record-id">Record Id:</label>
+                    <input type="text" id="record-id" name="record-id" placeholder="Enter Record ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctor-name">Doctor Name:</label>
+                    <input type="text" id="doctor-name" name="doctor-name" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="patient-name">Patient Name:</label>
+                    <input type="text" id="patient-name" name="patient-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="blood-group">Blood Group:</label>
+                    <select id="blood-group" name="blood-group" required>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="patient-wallet">Patient Wallet Address:</label>
+                    <input type="text" id="patient-wallet" name="patient-wallet" required>
+                </div>
+                <div class="form-group">
+                    <label for="diagnostic-wallet">Doctor Wallet Address:</label>
+                    <input type="text" id="diagnostic-wallet" name="diagnostic-wallet" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="report-file">Upload Final Report:</label>
+                <input type="file" id="report-file" name="report-file" accept=".pdf" required>
+            </div>
+            <div class="buttons">
+                <button type="submit" class="btn btn-primary">Create Record</button>
+                <button type="button" class="btn btn-secondary" id="cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function redirectToDashboard() {
+            window.location.href = '/dashboard';
+        }
+
+        function showPopup(message, isSuccess) {
+            const popup = document.createElement('div');
+            popup.className = `popup ${isSuccess ? 'popup-success' : 'popup-error'}`;
+            popup.innerHTML = `
+                <div class="popup-icon">${isSuccess ? '✅' : '❌'}</div>
+                <p class="popup-message">${message}</p>
+                <button class="popup-button ${isSuccess ? 'popup-button-success' : 'popup-button-error'}" 
+                        onclick="this.parentElement.remove()">OK</button>
+            `;
+            document.body.appendChild(popup);
+        }
+
+        document.getElementById('lab-report-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    try {
+        const response = await fetch('http://127.0.0.1:5000/create-lab-report', {
+            method: 'POST',
+            body: formData,
+        });
+
+        console.log("Response Status:", response.status);
+        console.log("Response Headers:", Object.fromEntries(response.headers.entries()));
+
+        const rawText = await response.text(); 
+        console.log("Raw Server Response:", rawText);
+
+        try {
+            const jsonResponse = JSON.parse(rawText);
+            
+            if (response.ok) {
+                showPopup(`Success: ${jsonResponse.message}`, true);
+                // Optional: Reset form or redirect
+                this.reset();
+            } else {
+                showPopup(`Error: ${jsonResponse.error || 'Unknown error'}`, false);
+            }
+        } catch (parseError) {
+            console.error("JSON Parse Error:", parseError);
+            showPopup(`Server returned non-JSON response: ${rawText}`, false);
+        }
+    } catch (err) {
+        console.error("Network Error:", err);
+        showPopup(`Network Error: ${err.message}`, false);
+    }
+});
+
+function showPopup(message, isSuccess) {
+    const popup = document.createElement('div');
+    popup.className = `popup ${isSuccess ? 'popup-success' : 'popup-error'}`;
+    popup.innerHTML = `
+        <div class="popup-icon">${isSuccess ? '✅' : '❌'}</div>
+        <p class="popup-message">${message}</p>
+        <button class="popup-button ${isSuccess ? 'popup-button-success' : 'popup-button-error'}" 
+                onclick="this.parentElement.remove()">OK</button>
+    `;
+    document.body.appendChild(popup);
+}
+
+    </script>
+</body>
+</html>

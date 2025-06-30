@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grant View Permission to the Doctor</title>
+    <style>
+        body {
+            background-color: #1f2430;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(to bottom, #000000, #1a1a1a);
+        }
+        header {
+            background-color: #000000;
+            padding: 15px 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        .back-button {
+            background-color: #3182ce;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .back-button:hover {
+            background-color: #2c5282;
+        }
+        main {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: antiquewhite;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 0.5rem;
+            color: aliceblue;
+        }
+        input {
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            background-color: #4a5568;
+            border: none;
+            border-radius: 0.25rem;
+            color: white;
+        }
+        input::placeholder {
+            color: #a0aec0;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .give-access {
+            background-color: #718096;
+            color: white;
+        }
+        .give-access:hover {
+            background-color: #4a5568;
+        }
+        .cancel {
+            background-color: #38b2ac;
+            color: white;
+        }
+        .cancel:hover {
+            background-color: #319795;
+        }
+        #accessList {
+            margin-top: 20px;
+            display: none;
+        }
+        .doctor-access {
+            background-color: #2d3748;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .doctor-info {
+            flex-grow: 1;
+        }
+        .remove-access {
+            background-color: #e53e3e;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+        .remove-access:hover {
+            background-color: #c53030;
+        }
+
+        /* Add styles for success message */
+        .success-message {
+            background-color: #48bb78;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-top: 1rem;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header style="height: 96px;">
+        <div class="logo">
+            <img style="height: 97px; margin-left: -20px;" src="image/img13.png" alt="SEHR Logo">
+        </div>
+        <div class="header-title">
+            <h1 style="font-size: 30px;">Secure Electronic Health Record</h1>
+        </div>
+        <button class="back-button" onclick="goBack()">Back to Dashboard</button>
+    </header>
+    
+    <main style="background-color: #333; min-height: 320px; width: 590px; border-radius: 10px; margin-top: 7%;">
+        <h1 style="font-size: 25px;">Grant View Permission to the Doctor</h1>
+        <form id="permissionForm">
+            <label for="patientWalletAddress">Patient Wallet Address:</label>
+            <input 
+                type="text" 
+                id="patientWalletAddress" 
+                placeholder="Enter patient's Ethereum wallet address" 
+                required
+            >
+            
+            <label for="doctorWalletAddress">Doctor Wallet Address:</label>
+            <input 
+                type="text" 
+                id="doctorWalletAddress" 
+                placeholder="Enter doctor's Ethereum wallet address" 
+                required
+            >
+            
+            <div class="button-group">
+                <button type="submit" class="give-access">Give Access</button>
+                <button type="button" class="cancel" onclick="cancelAction()">Cancel</button>
+            </div>
+        </form>
+
+        <div id="successMessage" class="success-message"></div>
+
+        <div id="accessList">
+            <h2 style="color: white; margin-top: 20px;">Doctors with Access</h2>
+            <div id="doctorsList">
+                <!-- Doctor access entries will be added here dynamically -->
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script>
+        let web3;
+        const ganacheUrl = 'http://127.0.0.1:7545';
+        let doctorsWithAccess = new Set();
+
+        async function initWeb3() {
+            if (typeof Web3 !== 'undefined') {
+                web3 = new Web3(new Web3.providers.HttpProvider(ganacheUrl));
+                try {
+                    await web3.eth.net.isListening();
+                    console.log("Connected to Ganache successfully");
+                } catch (error) {
+                    console.error("Failed to connect to Ganache:", error);
+                    alert('Unable to connect to Ganache. Please ensure it is running.');
+                }
+            } else {
+                alert('Web3 is not available. Please ensure Ganache is running.');
+            }
+        }
+
+        function showSuccessMessage(message) {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+        
+        function addDoctorToList(doctorAddress) {
+            if (!doctorsWithAccess.has(doctorAddress)) {
+                doctorsWithAccess.add(doctorAddress);
+                const doctorsList = document.getElementById('doctorsList');
+                const doctorDiv = document.createElement('div');
+                doctorDiv.className = 'doctor-access';
+                doctorDiv.innerHTML = `
+                    <div class="doctor-info">
+                        <div>Doctor Address: ${doctorAddress}</div>
+                    </div>
+                    <button class="remove-access" onclick="revokeAccess('${doctorAddress}')">
+                        Remove Access
+                    </button>
+                `;
+                doctorsList.appendChild(doctorDiv);
+                document.getElementById('accessList').style.display = 'block';
+            }
+        }
+
+        async function revokeAccess(doctorAddress) {
+            try {
+                const patientAddress = document.getElementById('patientWalletAddress').value;
+                
+                const response = await fetch('http://localhost:5000/revoke-permission', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        patient_address: patientAddress,
+                        doctor_address: doctorAddress
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    doctorsWithAccess.delete(doctorAddress);
+                    const doctorElement = Array.from(document.getElementsByClassName('doctor-access'))
+                        .find(el => el.textContent.includes(doctorAddress));
+                    if (doctorElement) {
+                        doctorElement.remove();
+                    }
+                    if (doctorsWithAccess.size === 0) {
+                        document.getElementById('accessList').style.display = 'none';
+                    }
+                    showSuccessMessage('Access successfully revoked');
+                } else {
+                    alert('Error revoking access: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error revoking access. Please try again.');
+            }
+        }
+
+        function goBack() {
+            window.location.href = 'patient.html';
+        }
+
+        function cancelAction() {
+            window.location.href = 'patient.html';
+        }
+
+        document.getElementById('permissionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            try {
+                const patientAddress = document.getElementById('patientWalletAddress').value.trim();
+                const doctorAddress = document.getElementById('doctorWalletAddress').value.trim();
+
+                if (!web3.utils.isAddress(patientAddress)) {
+                    alert('Invalid patient Ethereum address. Please check and try again.');
+                    return;
+                }
+
+                if (!web3.utils.isAddress(doctorAddress)) {
+                    alert('Invalid doctor Ethereum address. Please check and try again.');
+                    return;
+                }
+
+                if (patientAddress === doctorAddress) {
+                    alert('Patient and doctor addresses cannot be the same.');
+                    return;
+                }
+
+                const response = await fetch('http://localhost:5000/grant-permission', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        patient_address: patientAddress,
+                        doctor_address: doctorAddress
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSuccessMessage('Access granted successfully!');
+                    addDoctorToList(doctorAddress);
+                    document.getElementById('doctorWalletAddress').value = ''; // Clear doctor input
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error: ' + (error.message || 'Failed to grant permission. Please try again.'));
+            }
+        });
+
+        // Initialize Web3 when the page loads
+        initWeb3();
+    </script>
+</body>
+</html>

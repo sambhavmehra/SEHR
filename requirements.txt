@@ -1,0 +1,8 @@
+# requirements.txt content:
+flask
+flask-cors
+web3
+requests
+python-dotenv
+bcrypt
+json
